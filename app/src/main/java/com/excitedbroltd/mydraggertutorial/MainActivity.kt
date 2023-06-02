@@ -1,7 +1,6 @@
 package com.excitedbroltd.mydraggertutorial
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,9 +12,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import com.excitedbroltd.mydraggertutorial.dragger_tutorial.Car
+import com.excitedbroltd.mydraggertutorial.dragger_tutorial.DaggerCarComponent
 import com.excitedbroltd.mydraggertutorial.ui.theme.MyDraggerTutorialTheme
+import javax.inject.Inject
 
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var car: Car
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -29,7 +33,9 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-        Log.d("RUN", "onCreate: running")
+        val component = DaggerCarComponent.builder().build()
+        component.injectDagger(this)
+        car.getCarInfo()
     }
 }
 
